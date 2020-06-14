@@ -1,0 +1,35 @@
+ROOT
+
+#	a)
+int* a = new int[2] # ou int a[2]...
+a[0]
+a[1]
+
+#	b)
+TH1F* b = new TH1F[2]
+
+#	c)
+TH1F c[2]  = {TH1F("h1", "histogram", 10, 0.5, 10.5), TH1F("h2", "histogram", 10, 0.5, 10.5)}
+
+#	d)
+const double* params = new double[5] {0.5, 1.5, 4.5, 2.0, 1.0}
+TH1F d[2]  = {TH1F("h1", "histogram", 4, params), TH1F("h2", "histogram", 4, params)}
+
+#	e)
+TH1F e[2]
+e[0].Copy(c[0])
+e[1].Copy(c[1])
+
+#	f)
+TH1F* f[2]
+f[0] = &c[0]
+f[1] = &c[1]
+
+
+
+
+
+
+
+
+

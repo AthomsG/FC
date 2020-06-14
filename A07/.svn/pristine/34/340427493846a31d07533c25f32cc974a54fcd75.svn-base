@@ -1,0 +1,60 @@
+#include "IntegratorMC.hpp"
+#include "TMath.h"
+#include "TF1.h"
+#include "TFormula.h"
+#include <iostream>
+using namespace std;
+
+int main()
+{
+  // 1 DIMENSAO ----------------------------------------------------------------
+  TF1* f1 = new TF1("f1","cos(x+[0])",0,1);
+  f1->SetParameter(0,0.2*TMath::Pi());
+  double x0 = 0;
+  double x1 = 0.3*TMath::Pi();
+
+  IntegratorMC mc1(f1,1,x0,x1);
+  double result = 0, error = 0;
+
+  // UNIFORM DISTRIBUTION
+  mc1.UniformRandom(100000,result,error);
+  cout << "\nintegral = " << result << " +/- " << error << endl;
+
+  // ACCEPTANCE REJECTION
+  mc1.AcceptanceRejection(100000,1,result,error);
+  cout << "\nintegral = " << result << " +/- " << error << endl;
+
+  // IMPORTANCE SAMPLING
+  TF1* P = new TF1("P","[0]*TMath::Exp(-[0]*x)",x0,x1);
+  P->SetParameter(0,5);
+
+  TF1* XofY = new TF1("xofy","-1.0/[0]*TMath::Log(1-x*(1-TMath::Exp(-[0]*[1])))",x0,x1);
+  XofY->SetParameter(0,5);
+  XofY->SetParameter(1,x1);
+
+  mc1.ImportanceSampling(100000,P,XofY,result,error);
+  cout << "\nintegral = " << result << " +/- " << error << endl;
+
+  // 2 DIMENSOES ---------------------------------------------------------------
+
+  TFormula* fF1 = new TFormula("fF1","x+y+z");
+
+  double* xmin = new double[3];
+  double* xmax = new double[3];
+  for(int i =0; i< 3; i++)
+  {
+    xmin[i]=0;
+    xmax[i]=1;
+  }
+  IntegratorMC mc2(fF1,3,xmin,xmax);
+
+  //  UNIFORM DISTRIBUTION
+  mc2.UniformRandom(100000,result,error);
+  cout << "\nintegral = " << result << " +/- " << error << endl;
+
+  // ACCEPTANCE REJECTION
+  mc2.AcceptanceRejection(100000,3,result,error);
+  cout << "\nintegral = " << result << " +/- " << error << endl;
+
+  return 0;
+}

@@ -1,0 +1,43 @@
+#include "ODEsolver.hpp"
+//#include derivator
+#include <vector>
+#include <string>
+#include "TFormula.h"
+#define SEPARATOR  "\n---------------\n"
+
+using namespace std;
+
+//tem-se que: v(t) = (9.8 - |v|v*k/M)t
+//            x(t) = x0 - v(t)*t
+//Através da Classe ODEsolver (dependente de ODEpoint), resolve-se a primeira equação diferencial de forma numerica. Finalmente, obtem-se a velocidade terminal do objeto, para x(t) aproximadamente 0.
+
+int main()
+{
+    int    M      = 100;
+    double height = 8000;
+    double g      = 9.8;
+    double k      = 0.08;
+    double speed  = 0;
+    
+    vector<double> cond;
+    cond.push_back(speed);
+    
+    ODEpoint  init(0, cond);
+
+    TFormula v("velocity", "(9.8 - x[0]*x[0]*0.08/100)*[0]");
+    ODEsolver velo(v);
+    
+    vector<ODEpoint> res;
+    
+    while (height > 0)
+    {
+        init  = velo.RK4solver(init, 0, 1, 0.1)[0];
+        init.Print();
+        speed = init.Get_Var_vec()[0];
+        cout << "velocidade = " << speed << endl;
+        height -= 0.1*speed;
+    }
+    
+    return 0;
+}
+

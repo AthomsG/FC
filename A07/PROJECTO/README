@@ -1,0 +1,10 @@
+PROJECTO COMPUTACIONAL FC:
+
+Main: conforme pedido no enunciado, com a opcao de ligar/desligar o modo animate, que inibe a funcao WaitPrimitive, dando lugar a um meio de visualizacao mais fluida (mas funciona melhor com dados mais leves).
+Por defeito, nao conseguimos guardar imagens sem as mostrar no canvas.
+
+MAKEFILE:
+
+comando make compila e corre o codigo
+make cleang apaga as imagens .png
+make clean apaga todos os .o e o executavel
