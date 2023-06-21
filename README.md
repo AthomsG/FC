@@ -1,2 +1,1 @@
-# FC
-Este repositório contem todo o trabalho desenvolvido por mim e pelo meu boy, Diogo Miguez.
+# Repositório para a cadeira de Física Computacional
